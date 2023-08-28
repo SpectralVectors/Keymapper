@@ -1,11 +1,12 @@
 import bpy
 from . UI import KeymapperPanel
 from . Properties import KeymapperProperties
+from . Operators import KeymapperOperator
 
 bl_info = {
     "name": "Keymapper",
     "author": "Spectral Vectors",
-    "version": (0, 0, 1),
+    "version": (0, 0, 3),
     "blender": (2, 80, 0),
     "location": "Preferences > Keymap",
     "description": "Graphical Keymap Editor",
@@ -16,8 +17,9 @@ bl_info = {
 
 
 classes = [
-    KeymapperPanel,
+    KeymapperOperator,
     KeymapperProperties,
+    KeymapperPanel
 ]
 
 
