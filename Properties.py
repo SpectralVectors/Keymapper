@@ -32,6 +32,7 @@ class KeymapperProperties(bpy.types.PropertyGroup):
         keyconfig = wm.keyconfigs['Blender']
         for keymap in keyconfig.keymaps:
             keymaps.append((keymap.name, keymap.name, ''))
+            context.scene.keymaps.append(keymaps)
         return keymaps
 
     def get_keymap_item(self, context):
@@ -41,7 +42,8 @@ class KeymapperProperties(bpy.types.PropertyGroup):
         keymap = keyconfig.keymaps[self.keymap]
         for item in keymap.keymap_items:
             keymap_items.append((item.name, item.name, ''))
-        return keymap_items        
+            context.scene.keymap_items.append(keymap_items)
+        return keymap_items
 
     keymap: bpy.props.EnumProperty(
         name='Keymap',  # noqa: F821
@@ -57,7 +59,7 @@ class KeymapperProperties(bpy.types.PropertyGroup):
     )
 
     keybind: bpy.props.StringProperty(
-        name='Keybind',
+        name='Keybind',  # noqa: F821
         description='Keyboard Shortcut for the current item',
         default='Ctrl N'
     )

@@ -6,7 +6,7 @@ from . Operators import KeymapperOperator
 bl_info = {
     "name": "Keymapper",
     "author": "Spectral Vectors",
-    "version": (0, 0, 4),
+    "version": (0, 0, 6),
     "blender": (2, 80, 0),
     "location": "Preferences > Keymap",
     "description": "Graphical Keymap Editor",
@@ -30,8 +30,15 @@ def register():
     bpy.types.Scene.keymapper_props = bpy.props.PointerProperty(
         type=KeymapperProperties)
 
+    bpy.types.Scene.keymaps = []
+    bpy.types.Scene.keymap_items = []
+
 
 def unregister():
+    del bpy.types.Scene.keymapper_props
+    del bpy.types.Scene.keymaps
+    del bpy.types.Scene.keymap_items
+
     for cls in classes:
         bpy.utils.unregister_class(cls)
 
