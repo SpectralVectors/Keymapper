@@ -91,10 +91,10 @@ key_names = {
     76: 'F15',
     77: 'Insert',
     78: 'Home',
-    79: 'PageUp',
+    79: 'Page Up',
     80: 'Delete',
     81: 'End',
-    82: 'PageDown',
+    82: 'Page Down',
     83: 'Up',  # Up Arrow
     84: 'Left',  # Left Arrow
     85: 'Down',  # Down Arrow

@@ -28,10 +28,9 @@ class KeymapperPanel(bpy.types.Panel):
         # Top Box
         box = layout.box()
         row = box.row()
-        row.scale_x = 0.7
-        row.prop(props, 'category')
-        row.scale_x = 1
-        row.prop(props, 'operator')
+        row.prop(props, 'keymap')
+        row.prop(props, 'keymap_item')
+        row.prop(props, 'keybind')
 
         # Keyboard Section
         key_box = layout.box()
