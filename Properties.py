@@ -1,4 +1,5 @@
 import bpy
+from . Keyboard_Layouts import key_names
 
 
 class KeymapperProperties(bpy.types.PropertyGroup):
@@ -64,4 +65,5 @@ class KeymapperProperties(bpy.types.PropertyGroup):
         default='Ctrl N'
     )
 
-    idname: bpy.props.StringProperty()
+    for key in key_names:
+        exec(f"k_{key}: bpy.props.BoolProperty()")

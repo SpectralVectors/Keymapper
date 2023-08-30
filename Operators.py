@@ -1,4 +1,5 @@
 import bpy
+from . Keyboard_Layouts import key_names
 
 
 class KeymapperOperator(bpy.types.Operator):
@@ -8,11 +9,14 @@ class KeymapperOperator(bpy.types.Operator):
     bl_options = {'REGISTER', 'UNDO'}
 
     key: bpy.props.StringProperty()
-    alert: bpy.props.BoolProperty()
 
     def execute(self, context):
+        props = context.scene.keymapper_props  # noqa: F841
         space = context.space_data
         space.filter_type = 'KEY'
         space.filter_text = f"{self.key}"
-        self.alert = not self.alert
+        for key in key_names:
+            if key_names[key] == self.key.replace('Numpad ', ''):
+                prop = key
+        exec(f"props.k_{prop} = not props.k_{prop}")
         return {'FINISHED'}

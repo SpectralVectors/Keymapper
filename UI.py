@@ -48,7 +48,12 @@ class KeymapperPanel(bpy.types.Panel):
         for i in range(row_1):
             if i in (1, 5, 9):
                 row.separator(factor=1.5)
-            op = row.operator("preferences.keymapper", text=key_names[i])
+            prop = eval(f"props.k_{i}")
+            op = row.operator(
+                "preferences.keymapper",
+                text=key_names[i],
+                depress=prop
+            )
             op.key = key_names[i]
 
         row = box.row()
@@ -62,9 +67,12 @@ class KeymapperPanel(bpy.types.Panel):
             else:
                 row.scale_x = 1
             offset = row_1
+            prop = eval(f"props.k_{i + offset}")
             op = row.operator(
                 "preferences.keymapper",
-                text=key_names[i + offset])
+                text=key_names[i + offset],
+                depress=prop
+            )
             op.key = key_names[i + offset]
 
         ### Row 3 - Tab, Q, W
@@ -75,9 +83,12 @@ class KeymapperPanel(bpy.types.Panel):
             else:
                 row.scale_x = 1
             offset = row_1 + row_2
+            prop = eval(f"props.k_{i + offset}")
             op = row.operator(
                 "preferences.keymapper",
-                text=key_names[i + offset])
+                text=key_names[i + offset],
+                depress=prop
+            )
             op.key = key_names[i + offset]
 
         ### Row 4 - Caps, A, S
@@ -90,9 +101,12 @@ class KeymapperPanel(bpy.types.Panel):
             else:
                 row.scale_x = 1
             offset = row_1 + row_2 + row_3
+            prop = eval(f"props.k_{i + offset}")
             op = row.operator(
                 "preferences.keymapper",
-                text=key_names[i + offset])
+                text=key_names[i + offset],
+                depress=prop
+            )
             op.key = key_names[i + offset]
 
         ### Row 5 - Shift, Z, X
@@ -105,9 +119,12 @@ class KeymapperPanel(bpy.types.Panel):
             else:
                 row.scale_x = 1
             offset = row_1 + row_2 + row_3 + row_4
+            prop = eval(f"props.k_{i + offset}")
             op = row.operator(
                 "preferences.keymapper",
-                text=key_names[i + offset])
+                text=key_names[i + offset],
+                depress=prop
+            )
             op.key = key_names[i + offset]
 
         ### Row 6 - Ctrl, OS, Alt
@@ -122,9 +139,12 @@ class KeymapperPanel(bpy.types.Panel):
             else:
                 row.scale_x = 1
             offset = row_1 + row_2 + row_3 + row_4 + row_5
+            prop = eval(f"props.k_{i + offset}")
             op = row.operator(
                 "preferences.keymapper",
-                text=key_names[i + offset])
+                text=key_names[i + offset],
+                depress=prop
+            )
             op.key = key_names[i + offset]
 
         ## Insert Keys
@@ -135,9 +155,12 @@ class KeymapperPanel(bpy.types.Panel):
         ### F13, F14, F15
         row = box.row(align=alignment)
         for i in range(insert):
+            prop = eval(f"props.k_{i + 74}")
             op = row.operator(
                 "preferences.keymapper",
-                text=key_names[i + 74])
+                text=key_names[i + 74],
+                depress=prop
+            )
             op.key = key_names[i + 74]
 
         ### Spacer row
@@ -147,17 +170,23 @@ class KeymapperPanel(bpy.types.Panel):
         column = box.column(align=alignment)
         row = column.row(align=alignment)
         for i in range(insert):
+            prop = eval(f"props.k_{i + 77}")
             op = row.operator(
                 "preferences.keymapper",
-                text=key_names[i + 77])
+                text=key_names[i + 77],
+                depress=prop
+            )
             op.key = key_names[i + 77]
 
         ### Delete, End, PageDown
         row = column.row(align=alignment)
         for i in range(insert):
+            prop = eval(f"props.k_{i + 80}")
             op = row.operator(
                 "preferences.keymapper",
-                text=key_names[i + 80])
+                text=key_names[i + 80],
+                depress=prop
+            )
             op.key = key_names[i + 80]
 
         ### Large Spacer row
@@ -168,9 +197,11 @@ class KeymapperPanel(bpy.types.Panel):
         ### Up Arrow row
         row = column.row(align=alignment)
         row.label(text='')
+        prop = eval(f"props.k_{83}")
         op = row.operator(
             "preferences.keymapper",
             text=key_names[83],
+            depress=prop,
             icon='SORT_DESC'
         )
         op.key = key_names[83]
@@ -180,9 +211,11 @@ class KeymapperPanel(bpy.types.Panel):
         row = column.row(align=alignment)
         icons = ('BACK', 'SORT_ASC', 'FORWARD')
         for i in range(insert):
+            prop = eval(f"props.k_{i + 84}")
             op = row.operator(
                 "preferences.keymapper",
                 text=key_names[i + 84],
+                depress=prop,
                 icon=icons[i]
             )
             op.key = key_names[i + 84]
@@ -201,34 +234,46 @@ class KeymapperPanel(bpy.types.Panel):
         column = box.column(align=alignment)
         row = column.row(align=alignment)
         for i in range(numpad):
+            prop = eval(f"props.k_{i + 87}")
             op = row.operator(
                 "preferences.keymapper",
-                text=key_names[i + 87])
+                text=key_names[i + 87],
+                depress=prop
+            )
             op.key = f"Numpad {key_names[i + 87]}"
 
         ### Numpad 7, 8, 9
         row = column.row(align=alignment)
         row.scale_x = 1
         for i in range(numpad):
+            prop = eval(f"props.k_{i + 91}")
             op = row.operator(
                 "preferences.keymapper",
-                text=key_names[i + 91])
+                text=key_names[i + 91],
+                depress=prop
+            )
             op.key = f"Numpad {key_names[i + 91]}"
 
         ### Numpad 4, 5, 6
         row = column.row(align=alignment)
         for i in range(numpad):
+            prop = eval(f"props.k_{i + 95}")
             op = row.operator(
                 "preferences.keymapper",
-                text=key_names[i + 95])
+                text=key_names[i + 95],
+                depress=prop
+            )
             op.key = f"Numpad {key_names[i + 95]}"
 
         ### Numpad 1, 2, 3
         row = column.row(align=alignment)
         for i in range(numpad):
+            prop = eval(f"props.k_{i + 99}")
             op = row.operator(
                 "preferences.keymapper",
-                text=key_names[i + 99])
+                text=key_names[i + 99],
+                depress=prop
+            )
             op.key = f"Numpad {key_names[i + 99]}"
 
         ### Numpad 0, .
@@ -238,7 +283,10 @@ class KeymapperPanel(bpy.types.Panel):
                 row.scale_x = 2
             else:
                 row.scale_x = 1
+            prop = eval(f"props.k_{i + 103}")
             op = row.operator(
                 "preferences.keymapper",
-                text=key_names[i + 103])
+                text=key_names[i + 103],
+                depress=prop
+            )
             op.key = f"Numpad {key_names[i + 103]}"
