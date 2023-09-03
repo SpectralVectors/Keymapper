@@ -293,16 +293,28 @@ class KeymapperPanel(bpy.types.Panel):
 
         # Mouse and Tablet Row
         mouse_row = key_box.row(align=alignment)
-        mouse_row.scale_y = 2
+        # mouse_row.scale_y = 2
 
         # Mouse Box
         box = mouse_row.box()
         column = box.column(align=alignment)
         row = column.row(align=alignment)
         row.scale_y = 2
-        row.operator("preferences.keymapper", text="LeftMouse", icon='MOUSE_LMB')
-        row.operator("preferences.keymapper", text="MiddleMouse", icon='MOUSE_MMB')
-        row.operator("preferences.keymapper", text="RightMouse", icon='MOUSE_RMB')
+        row.operator(
+            "preferences.keymapper",
+            text="LeftMouse",
+            icon='MOUSE_LMB'
+        )
+        row.operator(
+            "preferences.keymapper",
+            text="MiddleMouse",
+            icon='MOUSE_MMB'
+        )
+        row.operator(
+            "preferences.keymapper",
+            text="RightMouse",
+            icon='MOUSE_RMB'
+        )
         row = column.row(align=alignment)
         row.label(text="")
         row.label(text="")
@@ -322,7 +334,11 @@ class KeymapperPanel(bpy.types.Panel):
         row = column.row(align=alignment)
         row.label(text="")
         row.label(text="")
-        row.operator("preferences.keymapper", text="WheelDown", icon='SORT_ASC')
+        row.operator(
+            "preferences.keymapper",
+            text="WheelDown",
+            icon='SORT_ASC'
+        )
         row.label(text="")
         row.label(text="")
         row = column.row(align=alignment)
@@ -340,14 +356,18 @@ class KeymapperPanel(bpy.types.Panel):
 
         # Spacer
         column = mouse_row.column(align=alignment)
-        column.scale_x = 0.5
+        # column.scale_x = 0.5
         column.label(text='')
 
         # Pen Box
         box = mouse_row.box()
         box.scale_x = 0.75
         column = box.column(align=alignment)
-        column.operator("preferences.keymapper", text='Eraser', icon='OUTLINER_DATA_GP_LAYER')
+        column.operator(
+            "preferences.keymapper",
+            text='Eraser',
+            icon='OUTLINER_DATA_GP_LAYER'
+        )
         column.label(text='')
         column.label(text='')
         column.label(text='')
@@ -355,25 +375,37 @@ class KeymapperPanel(bpy.types.Panel):
         column.label(text='')
         column.label(text='')
         column.label(text='')
-        column.operator("preferences.keymapper", text='Pen', icon='GREASEPENCIL')
+        column.operator(
+            "preferences.keymapper",
+            text='Pen',
+            icon='GREASEPENCIL'
+        )
 
         # Spacer
         column = mouse_row.column(align=alignment)
-        column.scale_x = 0.5
+        # column.scale_x = 0.5
         column.label(text='')
 
         # Tablet Box
         box = mouse_row.box()
-        box.scale_x = 2
+        box.scale_x = 3
         box.scale_y = 3
         column = box.column(align=alignment)
         row = column.row(align=alignment)
         # row.scale_y = 2
-        row.operator("preferences.keymapper", text="Trackpad Pan", icon='VIEW_PAN')
+        row.operator(
+            "preferences.keymapper",
+            text="Trackpad Pan",
+            icon='VIEW_PAN'
+        )
         row.scale_x = 0.5
         row.label(text='')
         row.scale_x = 1
-        row.operator("preferences.keymapper", text="Trackpad Zoom", icon='ZOOM_IN')
+        row.operator(
+            "preferences.keymapper",
+            text="Trackpad Zoom",
+            icon='ZOOM_IN'
+        )
         row = column.row(align=alignment)
         row.label(text="")
         row.scale_x = 0.5
@@ -382,8 +414,16 @@ class KeymapperPanel(bpy.types.Panel):
         row.label(text="")
         row = column.row(align=alignment)
         # row.scale_y = 2
-        row.operator("preferences.keymapper", text="Trackpad Rotate", icon='ORIENTATION_GIMBAL')
+        row.operator(
+            "preferences.keymapper",
+            text="Trackpad Rotate",
+            icon='ORIENTATION_GIMBAL'
+        )
         row.scale_x = 0.5
         row.label(text='')
         row.scale_x = 1
-        row.operator("preferences.keymapper", text="Trackpad Smart Zoom", icon='VIEW_ZOOM')
+        row.operator(
+            "preferences.keymapper",
+            text="Trackpad Smart Zoom",
+            icon='VIEW_ZOOM'
+        )
