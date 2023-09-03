@@ -10,7 +10,8 @@ class KeymapperProperties(bpy.types.PropertyGroup):
         alt = ''
         oskey = ''
         wm = context.window_manager
-        keyconfig = wm.keyconfigs['Blender']
+        active_keyconfig = context.preferences.keymap.active_keyconfig
+        keyconfig = wm.keyconfigs[active_keyconfig]
         keymap = keyconfig.keymaps[self.keymap]
         for keymap_item in keymap.keymap_items:
             if keymap_item.name == self.keymap_item:
