@@ -5,10 +5,7 @@ from . Keyboard_Layouts import key_names
 class KeymapperProperties(bpy.types.PropertyGroup):
 
     def search(self, context):
-        shift = ''
-        ctrl = ''
-        alt = ''
-        oskey = ''
+        props = context.scene.keymapper_props
         wm = context.window_manager
         active_keyconfig = context.preferences.keymap.active_keyconfig
         keyconfig = wm.keyconfigs[active_keyconfig]
@@ -16,15 +13,11 @@ class KeymapperProperties(bpy.types.PropertyGroup):
         for keymap_item in keymap.keymap_items:
             if keymap_item.name == self.keymap_item:
                 item = keymap.keymap_items[keymap_item.idname]
-                if item.shift:
-                    shift = 'Shift '
-                if item.ctrl:
-                    ctrl = 'Ctrl '
-                if item.alt:
-                    alt = 'Alt '
-                if item.oskey:
-                    oskey = 'OS '
-                self.keybind = f"{shift}{ctrl}{alt}{oskey}{item.type}"
+                props.shift = item.shift
+                props.ctrl = item.ctrl
+                props.alt = item.alt
+                props.cmd = item.oskey
+                self.keybind = f"{item.type}"
         context.space_data.filter_type = 'NAME'
         context.space_data.filter_text = f'{self.keymap_item}'
 
@@ -63,7 +56,7 @@ class KeymapperProperties(bpy.types.PropertyGroup):
     keybind: bpy.props.StringProperty(
         name='Keybind',  # noqa: F821
         description='Keyboard Shortcut for the current item',
-        default='Ctrl N'
+        default='N'  # noqa: F821
     )
 
     for key in key_names:
@@ -81,8 +74,44 @@ class KeymapperProperties(bpy.types.PropertyGroup):
         default=True
     )
 
+    show_pen: bpy.props.BoolProperty(
+        name='Pen',  # noqa: F821
+        description='Show/Hide the Pen',
+        default=True
+    )
+
+    show_trackpad: bpy.props.BoolProperty(
+        name='Trackpad',  # noqa: F821
+        description='Show/Hide the Trackpad',
+        default=True
+    )
+
     show_ndof: bpy.props.BoolProperty(
         name='NDOF',  # noqa: F821
         description='Show/Hide the NDOF (3D Mouse)',
+        default=False
+    )
+
+    shift: bpy.props.BoolProperty(
+        name='Shift',  # noqa: F821
+        description='Use Shift Key in Binding',
+        default=False
+    )
+
+    ctrl: bpy.props.BoolProperty(
+        name='Ctrl',  # noqa: F821
+        description='Use Ctrl Key in Binding',
+        default=True
+    )
+
+    alt: bpy.props.BoolProperty(
+        name='Alt',  # noqa: F821
+        description='Use Alt Key in Binding',
+        default=False
+    )
+
+    cmd: bpy.props.BoolProperty(
+        name='Cmd',  # noqa: F821
+        description='Use Cmd Key in Binding',
         default=False
     )

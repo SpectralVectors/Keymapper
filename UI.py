@@ -24,26 +24,39 @@ class KeymapperPanel(bpy.types.Panel):
         props = context.scene.keymapper_props
 
         layout = self.layout
+        align = True
 
-        # Top Box
+        # Bind Box
         box = layout.box()
+        box.scale_y = 1.5
         row = box.row()
         row.prop(props, 'keymap')
         row.prop(props, 'keymap_item')
-        row.prop(props, 'keybind')
-        row = box.row()
-        row.scale_x = 2
-        row.label(text='Show/Hide Onscreen Controls:')
+        row = row.row(align=align)
+        row.scale_x = 0.5
+        row.label(text='Bind:')
+        row.prop(props, 'shift', icon='EVENT_SHIFT')
+        row.prop(props, 'ctrl', icon='EVENT_CTRL')
+        row.prop(props, 'alt', icon='EVENT_ALT')
+        row.prop(props, 'cmd', icon='EVENT_OS')
         row.scale_x = 1
-        row.prop(props, 'show_keyboard')
-        row.prop(props, 'show_mouse')
-        row.prop(props, 'show_ndof')
+        row.prop(props, 'keybind', text='')
+
+        # Display Control Row
+        row = layout.row(align=align)
+        row.scale_x = 2
+        row.label(text='Show/Hide Onscreen Controls:', icon='HIDE_OFF')
+        row.scale_x = 1
+        row.prop(props, 'show_keyboard', icon='EVENT_ESC')
+        row.prop(props, 'show_mouse', icon='MOUSE_MMB')
+        row.prop(props, 'show_pen', icon='GREASEPENCIL')
+        row.prop(props, 'show_trackpad', icon='META_PLANE')
+        row.prop(props, 'show_ndof', icon='MATSHADERBALL')
+
+        key_box = layout.box()
 
         if props.show_keyboard:
             # Keyboard Section
-            key_box = layout.box()
-            row = key_box.row()
-            row.label(text='Keyboard:')
             key_row = key_box.row()
 
             ## Main Keys
@@ -51,10 +64,8 @@ class KeymapperPanel(bpy.types.Panel):
             box.scale_x = 1
             box.scale_y = 2
 
-            alignment = True
-
             ### Row 1 - Esc, F1, F2
-            row = box.row(align=alignment)
+            row = box.row(align=align)
             for i in range(row_1):
                 if i in (1, 5, 9):
                     row.separator(factor=1.5)
@@ -68,9 +79,9 @@ class KeymapperPanel(bpy.types.Panel):
 
             row = box.row()
 
-            column = box.column(align=alignment)
+            column = box.column(align=align)
             ### Row 2 - `, 1, 2
-            row = column.row(align=alignment)
+            row = column.row(align=align)
             for i in range(row_2):
                 if i == (row_2 - 1):
                     row.scale_x = 2
@@ -86,7 +97,7 @@ class KeymapperPanel(bpy.types.Panel):
                 op.key = key_names[i + offset]
 
             ### Row 3 - Tab, Q, W
-            row = column.row(align=alignment)
+            row = column.row(align=align)
             for i in range(row_3):
                 if i in (0, (row_3 - 1)):
                     row.scale_x = 1.5
@@ -102,7 +113,7 @@ class KeymapperPanel(bpy.types.Panel):
                 op.key = key_names[i + offset]
 
             ### Row 4 - Caps, A, S
-            row = column.row(align=alignment)
+            row = column.row(align=align)
             for i in range(row_4):
                 if i == 0:
                     row.scale_x = 1.75
@@ -120,7 +131,7 @@ class KeymapperPanel(bpy.types.Panel):
                 op.key = key_names[i + offset]
 
             ### Row 5 - Shift, Z, X
-            row = column.row(align=alignment)
+            row = column.row(align=align)
             for i in range(row_5):
                 if i == 0:
                     row.scale_x = 2.25
@@ -138,7 +149,7 @@ class KeymapperPanel(bpy.types.Panel):
                 op.key = key_names[i + offset]
 
             ### Row 6 - Ctrl, OS, Alt
-            row = column.row(align=alignment)
+            row = column.row(align=align)
             for i in range(row_6):
                 if i in (0, (row_6 - 1)):
                     row.scale_x = 1.5
@@ -163,7 +174,7 @@ class KeymapperPanel(bpy.types.Panel):
             box.scale_y = 2
 
             ### F13, F14, F15
-            row = box.row(align=alignment)
+            row = box.row(align=align)
             for i in range(insert):
                 prop = eval(f"props.k_{i + 74}")
                 op = row.operator(
@@ -177,8 +188,8 @@ class KeymapperPanel(bpy.types.Panel):
             row = box.row()
 
             ### Insert, Home, PageUp
-            column = box.column(align=alignment)
-            row = column.row(align=alignment)
+            column = box.column(align=align)
+            row = column.row(align=align)
             for i in range(insert):
                 prop = eval(f"props.k_{i + 77}")
                 op = row.operator(
@@ -189,7 +200,7 @@ class KeymapperPanel(bpy.types.Panel):
                 op.key = key_names[i + 77]
 
             ### Delete, End, PageDown
-            row = column.row(align=alignment)
+            row = column.row(align=align)
             for i in range(insert):
                 prop = eval(f"props.k_{i + 80}")
                 op = row.operator(
@@ -200,12 +211,12 @@ class KeymapperPanel(bpy.types.Panel):
                 op.key = key_names[i + 80]
 
             ### Large Spacer row
-            row = column.row(align=alignment)
+            row = column.row(align=align)
             for i in range(insert):
                 row.label(text='')
 
             ### Up Arrow row
-            row = column.row(align=alignment)
+            row = column.row(align=align)
             row.label(text='')
             prop = eval(f"props.k_{83}")
             op = row.operator(
@@ -218,7 +229,7 @@ class KeymapperPanel(bpy.types.Panel):
             row.label(text='')
 
             ### Left, Down, Right Arrow rows
-            row = column.row(align=alignment)
+            row = column.row(align=align)
             icons = ('BACK', 'SORT_ASC', 'FORWARD')
             for i in range(insert):
                 prop = eval(f"props.k_{i + 84}")
@@ -235,14 +246,14 @@ class KeymapperPanel(bpy.types.Panel):
             box.scale_x = 3
             box.scale_y = 2
 
-            ### Spacer and alignment rows
+            ### Spacer and align rows
             row = box.row()
             row = box.row()
             row.label(text='')
 
             ### NumLock, /, *
-            column = box.column(align=alignment)
-            row = column.row(align=alignment)
+            column = box.column(align=align)
+            row = column.row(align=align)
             for i in range(numpad):
                 prop = eval(f"props.k_{i + 87}")
                 op = row.operator(
@@ -253,7 +264,7 @@ class KeymapperPanel(bpy.types.Panel):
                 op.key = f"Numpad {key_names[i + 87]}"
 
             ### Numpad 7, 8, 9
-            row = column.row(align=alignment)
+            row = column.row(align=align)
             row.scale_x = 1
             for i in range(numpad):
                 prop = eval(f"props.k_{i + 91}")
@@ -265,7 +276,7 @@ class KeymapperPanel(bpy.types.Panel):
                 op.key = f"Numpad {key_names[i + 91]}"
 
             ### Numpad 4, 5, 6
-            row = column.row(align=alignment)
+            row = column.row(align=align)
             for i in range(numpad):
                 prop = eval(f"props.k_{i + 95}")
                 op = row.operator(
@@ -276,7 +287,7 @@ class KeymapperPanel(bpy.types.Panel):
                 op.key = f"Numpad {key_names[i + 95]}"
 
             ### Numpad 1, 2, 3
-            row = column.row(align=alignment)
+            row = column.row(align=align)
             for i in range(numpad):
                 prop = eval(f"props.k_{i + 99}")
                 op = row.operator(
@@ -287,7 +298,7 @@ class KeymapperPanel(bpy.types.Panel):
                 op.key = f"Numpad {key_names[i + 99]}"
 
             ### Numpad 0, .
-            row = column.row(align=alignment)
+            row = column.row(align=align)
             for i in range(numpad - 1):
                 if i == 0:
                     row.scale_x = 2
@@ -301,17 +312,19 @@ class KeymapperPanel(bpy.types.Panel):
                 )
                 op.key = f"Numpad {key_names[i + 103]}"
 
-        if props.show_mouse:
-            row = key_box.row()
-            row.label(text='Mouse, Pen & Trackpad:')
+        ## Mouse and Tablet Row
+        mouse_row = key_box.row(align=align)
 
-            ## Mouse and Tablet Row
-            mouse_row = key_box.row(align=alignment)
+        if props.show_mouse:
+            ### Spacer
+            column = mouse_row.column(align=align)
+            # column.scale_x = 0.5
+            column.label(text='')
 
             ### Mouse Box
             box = mouse_row.box()
-            column = box.column(align=alignment)
-            row = column.row(align=alignment)
+            column = box.column(align=align)
+            row = column.row(align=align)
             row.scale_y = 2
             row.operator(
                 "preferences.keymapper",
@@ -328,10 +341,14 @@ class KeymapperPanel(bpy.types.Panel):
                 text="RightMouse",
                 icon='MOUSE_RMB'
             )
-            row = column.row(align=alignment)
+
+            ### Spacer Row
+            row = column.row(align=align)
             for i in range(3):
                 row.label(text="")
-            row = column.row(align=alignment)
+
+            ### Mouse Wheel Section
+            row = column.row(align=align)
             row.label(text="")
             row.label(text="")
             row.operator(
@@ -341,7 +358,7 @@ class KeymapperPanel(bpy.types.Panel):
             )
             row.label(text="")
             row.label(text="")
-            row = column.row(align=alignment)
+            row = column.row(align=align)
             row.label(text="")
             row.operator(
                 "preferences.keymapper",
@@ -359,7 +376,7 @@ class KeymapperPanel(bpy.types.Panel):
                 icon='ADD'
             )
             row.label(text="")
-            row = column.row(align=alignment)
+            row = column.row(align=align)
             row.label(text="")
             row.label(text="")
             row.operator(
@@ -369,26 +386,36 @@ class KeymapperPanel(bpy.types.Panel):
             )
             row.label(text="")
             row.label(text="")
-            row = column.row(align=alignment)
+
+            ### Spacer Row
+            row = column.row(align=align)
             for i in range(3):
                 row.label(text="")
-            row = column.row(align=alignment)
+
+            ### Mouse Buttons 4-7
+            row = column.row(align=align)
             row.operator("preferences.keymapper", text="Button4")
             row.label(text="")
             row.operator("preferences.keymapper", text="Button5")
-            row = column.row(align=alignment)
+            row = column.row(align=align)
             row.operator("preferences.keymapper", text="Button6")
             row.label(text="")
             row.operator("preferences.keymapper", text="Button7")
 
             ### Spacer
-            column = mouse_row.column(align=alignment)
+            column = mouse_row.column(align=align)
+            # column.scale_x = 0.5
+            column.label(text='')
+
+        if props.show_pen:
+            ### Spacer
+            column = mouse_row.column(align=align)
             # column.scale_x = 0.5
             column.label(text='')
 
             ### Pen Box
             box = mouse_row.box()
-            column = box.column(align=alignment)
+            column = box.column(align=align)
             column.operator(
                 "preferences.keymapper",
                 text='Eraser',
@@ -401,9 +428,14 @@ class KeymapperPanel(bpy.types.Panel):
                 text='Pen',
                 icon='GREASEPENCIL'
             )
-
             ### Spacer
-            column = mouse_row.column(align=alignment)
+            column = mouse_row.column(align=align)
+            # column.scale_x = 0.5
+            column.label(text='')
+
+        if props.show_trackpad:
+            ### Spacer
+            column = mouse_row.column(align=align)
             # column.scale_x = 0.5
             column.label(text='')
 
@@ -411,8 +443,8 @@ class KeymapperPanel(bpy.types.Panel):
             box = mouse_row.box()
             box.scale_x = 3
             box.scale_y = 3
-            column = box.column(align=alignment)
-            row = column.row(align=alignment)
+            column = box.column(align=align)
+            row = column.row(align=align)
             row.operator(
                 "preferences.keymapper",
                 text="Trackpad Pan",
@@ -426,13 +458,13 @@ class KeymapperPanel(bpy.types.Panel):
                 text="Trackpad Zoom",
                 icon='ZOOM_IN'
             )
-            row = column.row(align=alignment)
+            row = column.row(align=align)
             row.label(text="")
             row.scale_x = 0.5
             row.label(text="")
             row.scale_x = 1
             row.label(text="")
-            row = column.row(align=alignment)
+            row = column.row(align=align)
             row.operator(
                 "preferences.keymapper",
                 text="Trackpad Rotate",
@@ -447,45 +479,47 @@ class KeymapperPanel(bpy.types.Panel):
                 icon='VIEW_ZOOM'
             )
 
-        if props.show_ndof:
-            row = key_box.row()
-            row.label(text='NDOF (3D Mouse):')
+            ### Spacer
+            column = mouse_row.column(align=align)
+            # column.scale_x = 0.5
+            column.label(text='')
 
+        if props.show_ndof:
             ## NDOF Row
-            ndof_row = key_box.row(align=alignment)
+            ndof_row = key_box.row(align=align)
             ndof_row.scale_y = 2
 
             ### NDOF Button Box
             box = ndof_row.box()
-            column = box.column(align=alignment)
-            row = column.row(align=alignment)
+            column = box.column(align=align)
+            row = column.row(align=align)
             row.operator("preferences.keymapper", text="A")
             row.operator("preferences.keymapper", text="B")
             row.operator("preferences.keymapper", text="C")
-            row = column.row(align=alignment)
+            row = column.row(align=align)
             row.operator("preferences.keymapper", text="1")
             row.operator("preferences.keymapper", text="2")
             row.operator("preferences.keymapper", text="3")
-            row = column.row(align=alignment)
+            row = column.row(align=align)
             row.operator("preferences.keymapper", text="4")
             row.operator("preferences.keymapper", text="5")
             row.operator("preferences.keymapper", text="6")
-            row = column.row(align=alignment)
+            row = column.row(align=align)
             row.operator("preferences.keymapper", text="7")
             row.operator("preferences.keymapper", text="B")
             row.operator("preferences.keymapper", text="9")
-            row = column.row(align=alignment)
+            row = column.row(align=align)
             row.operator("preferences.keymapper", text="-")
             row.operator("preferences.keymapper", text="0")
             row.operator("preferences.keymapper", text="+")
 
             ### NDOF Knob Box
             box = ndof_row.box()
-            column = box.column(align=alignment)
-            row = column.row(align=alignment)
+            column = box.column(align=align)
+            row = column.row(align=align)
             for i in range(3):
                 row.label(text="")
-            row = column.row(align=alignment)
+            row = column.row(align=align)
             row.operator(
                 "preferences.keymapper",
                 text="Roll CCW",
@@ -501,7 +535,7 @@ class KeymapperPanel(bpy.types.Panel):
                 text="Roll CW",
                 icon='LOOP_FORWARDS'
             )
-            row = column.row(align=alignment)
+            row = column.row(align=align)
             row.operator(
                 "preferences.keymapper",
                 text="Spin CCW",
@@ -517,7 +551,7 @@ class KeymapperPanel(bpy.types.Panel):
                 text="Spin CW",
                 icon='LOOP_FORWARDS'
             )
-            row = column.row(align=alignment)
+            row = column.row(align=align)
             row.operator(
                 "preferences.keymapper",
                 text="Tilt CCW",
@@ -533,14 +567,14 @@ class KeymapperPanel(bpy.types.Panel):
                 text="Tilt CW",
                 icon='LOOP_FORWARDS'
             )
-            row = column.row(align=alignment)
+            row = column.row(align=align)
             for i in range(3):
                 row.label(text="")
 
             ### NDOF View Box
             box = ndof_row.box()
-            column = box.column(align=alignment)
-            row = column.row(align=alignment)
+            column = box.column(align=align)
+            row = column.row(align=align)
             row.operator(
                 "preferences.keymapper",
                 text="View 1",
@@ -556,7 +590,7 @@ class KeymapperPanel(bpy.types.Panel):
                 text="View 3",
                 icon='VIEW_CAMERA'
             )
-            row = column.row(align=alignment)
+            row = column.row(align=align)
             row.operator(
                 "preferences.keymapper",
                 text="Iso 1",
@@ -572,7 +606,7 @@ class KeymapperPanel(bpy.types.Panel):
                 text="Iso 2",
                 icon='AXIS_SIDE'
             )
-            row = column.row(align=alignment)
+            row = column.row(align=align)
             row.operator(
                 "preferences.keymapper",
                 text="Left",
@@ -588,7 +622,7 @@ class KeymapperPanel(bpy.types.Panel):
                 text="Right",
                 icon='TRIA_RIGHT_BAR'
             )
-            row = column.row(align=alignment)
+            row = column.row(align=align)
             row.operator(
                 "preferences.keymapper",
                 text="Front",
@@ -604,7 +638,7 @@ class KeymapperPanel(bpy.types.Panel):
                 text="Back",
                 icon='KEYFRAME'
             )
-            row = column.row(align=alignment)
+            row = column.row(align=align)
             row.operator("preferences.keymapper", text="Dominant")
             row.label(text='')
             row.operator("preferences.keymapper", text="Menu")
