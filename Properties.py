@@ -68,3 +68,21 @@ class KeymapperProperties(bpy.types.PropertyGroup):
 
     for key in key_names:
         exec(f"k_{key}: bpy.props.BoolProperty()")
+
+    show_keyboard: bpy.props.BoolProperty(
+        name='Keyboard',  # noqa: F821
+        description='Show/Hide the Keyboard',
+        default=True
+    )
+
+    show_mouse: bpy.props.BoolProperty(
+        name='Mouse',  # noqa: F821
+        description='Show/Hide the Mouse',
+        default=True
+    )
+
+    show_ndof: bpy.props.BoolProperty(
+        name='NDOF',  # noqa: F821
+        description='Show/Hide the NDOF (3D Mouse)',
+        default=False
+    )
