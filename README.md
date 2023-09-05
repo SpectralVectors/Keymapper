@@ -1,6 +1,9 @@
 # Keymapper
-Experimental Keymap GUI for Blender
-![Keymapper](/Keymapper.png)
+### Experimental Keymap GUI for Blender
+_Default layout:_
+![Keymapper Default](/Keymapper_default.png)
+_Expanded layout:_
+![Keymapper Expanded](/Keymapper_expanded.png)
 ### Star, Fork, create Issues and Pull Requests if you want to contribute!
 ## Inspiration
 Editing keymaps in Blender can be a chore, and Blender won't tell you if there is a conflict with an existing keybind.
