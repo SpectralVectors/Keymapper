@@ -24,7 +24,8 @@ class KeymapperProperties(bpy.types.PropertyGroup):
     def get_keymap(self, context):
         keymaps = []
         wm = context.window_manager
-        keyconfig = wm.keyconfigs['Blender']
+        active_keyconfig = context.preferences.keymap.active_keyconfig
+        keyconfig = wm.keyconfigs[active_keyconfig]
         for keymap in keyconfig.keymaps:
             keymaps.append((keymap.name, keymap.name, ''))
             context.scene.keymaps.append(keymaps)
@@ -33,7 +34,8 @@ class KeymapperProperties(bpy.types.PropertyGroup):
     def get_keymap_item(self, context):
         keymap_items = []
         wm = context.window_manager
-        keyconfig = wm.keyconfigs['Blender']
+        active_keyconfig = context.preferences.keymap.active_keyconfig
+        keyconfig = wm.keyconfigs[active_keyconfig]
         keymap = keyconfig.keymaps[self.keymap]
         for item in keymap.keymap_items:
             keymap_items.append((item.name, item.name, ''))
@@ -68,6 +70,12 @@ class KeymapperProperties(bpy.types.PropertyGroup):
         default=True
     )
 
+    show_numpad: bpy.props.BoolProperty(
+        name='Numpad',  # noqa: F821
+        description='Show/Hide the Numpad',
+        default=False
+    )
+
     show_mouse: bpy.props.BoolProperty(
         name='Mouse',  # noqa: F821
         description='Show/Hide the Mouse',
@@ -77,13 +85,13 @@ class KeymapperProperties(bpy.types.PropertyGroup):
     show_pen: bpy.props.BoolProperty(
         name='Pen',  # noqa: F821
         description='Show/Hide the Pen',
-        default=True
+        default=False
     )
 
     show_trackpad: bpy.props.BoolProperty(
         name='Trackpad',  # noqa: F821
         description='Show/Hide the Trackpad',
-        default=True
+        default=False
     )
 
     show_ndof: bpy.props.BoolProperty(

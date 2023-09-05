@@ -21,7 +21,12 @@ class KeymapperPanel(bpy.types.Panel):
     bl_context = "keymap"
 
     def draw(self, context):
+        wm = context.window_manager
+
         props = context.scene.keymapper_props
+
+        active_keyconfig = context.preferences.keymap.active_keyconfig
+        keyconfig = wm.keyconfigs[active_keyconfig]
 
         layout = self.layout
         align = True
@@ -30,7 +35,7 @@ class KeymapperPanel(bpy.types.Panel):
         box = layout.box()
         box.scale_y = 1.5
         row = box.row()
-        row.prop(props, 'keymap')
+        row.prop_search(props, 'keymap', keyconfig, 'keymaps')
         row.prop(props, 'keymap_item')
         row = row.row(align=align)
         row.scale_x = 0.5
@@ -40,24 +45,25 @@ class KeymapperPanel(bpy.types.Panel):
         row.prop(props, 'alt', icon='EVENT_ALT')
         row.prop(props, 'cmd', icon='EVENT_OS')
         row.scale_x = 1
-        row.prop(props, 'keybind', text='')
+        row.operator('preferences.keymapper', text=props.keybind, depress=True)
+
+        controls_box = layout.box()
 
         # Display Control Row
-        row = layout.row(align=align)
+        row = controls_box.row(align=align)
         row.scale_x = 2
-        row.label(text='Show/Hide Onscreen Controls:', icon='HIDE_OFF')
+        row.label(text='Show/Hide Controls:', icon='HIDE_OFF')
         row.scale_x = 1
         row.prop(props, 'show_keyboard', icon='EVENT_ESC')
+        row.prop(props, 'show_numpad', icon='VIEW_ORTHO')
         row.prop(props, 'show_mouse', icon='MOUSE_MMB')
         row.prop(props, 'show_pen', icon='GREASEPENCIL')
         row.prop(props, 'show_trackpad', icon='META_PLANE')
         row.prop(props, 'show_ndof', icon='MATSHADERBALL')
 
-        key_box = layout.box()
-
         if props.show_keyboard:
             # Keyboard Section
-            key_row = key_box.row()
+            key_row = controls_box.row()
 
             ## Main Keys
             box = key_row.box()
@@ -241,79 +247,80 @@ class KeymapperPanel(bpy.types.Panel):
                 )
                 op.key = key_names[i + 84]
 
-            ## Numpad Keys
-            box = key_row.box()
-            box.scale_x = 3
-            box.scale_y = 2
+            if props.show_numpad:
+                ## Numpad Keys
+                box = key_row.box()
+                box.scale_x = 3
+                box.scale_y = 2
 
-            ### Spacer and align rows
-            row = box.row()
-            row = box.row()
-            row.label(text='')
+                ### Spacer and align rows
+                row = box.row()
+                row = box.row()
+                row.label(text='')
 
-            ### NumLock, /, *
-            column = box.column(align=align)
-            row = column.row(align=align)
-            for i in range(numpad):
-                prop = eval(f"props.k_{i + 87}")
-                op = row.operator(
-                    "preferences.keymapper",
-                    text=key_names[i + 87],
-                    depress=prop
-                )
-                op.key = f"Numpad {key_names[i + 87]}"
+                ### NumLock, /, *
+                column = box.column(align=align)
+                row = column.row(align=align)
+                for i in range(numpad):
+                    prop = eval(f"props.k_{i + 87}")
+                    op = row.operator(
+                        "preferences.keymapper",
+                        text=key_names[i + 87],
+                        depress=prop
+                    )
+                    op.key = f"Numpad {key_names[i + 87]}"
 
-            ### Numpad 7, 8, 9
-            row = column.row(align=align)
-            row.scale_x = 1
-            for i in range(numpad):
-                prop = eval(f"props.k_{i + 91}")
-                op = row.operator(
-                    "preferences.keymapper",
-                    text=key_names[i + 91],
-                    depress=prop
-                )
-                op.key = f"Numpad {key_names[i + 91]}"
+                ### Numpad 7, 8, 9
+                row = column.row(align=align)
+                row.scale_x = 1
+                for i in range(numpad):
+                    prop = eval(f"props.k_{i + 91}")
+                    op = row.operator(
+                        "preferences.keymapper",
+                        text=key_names[i + 91],
+                        depress=prop
+                    )
+                    op.key = f"Numpad {key_names[i + 91]}"
 
-            ### Numpad 4, 5, 6
-            row = column.row(align=align)
-            for i in range(numpad):
-                prop = eval(f"props.k_{i + 95}")
-                op = row.operator(
-                    "preferences.keymapper",
-                    text=key_names[i + 95],
-                    depress=prop
-                )
-                op.key = f"Numpad {key_names[i + 95]}"
+                ### Numpad 4, 5, 6
+                row = column.row(align=align)
+                for i in range(numpad):
+                    prop = eval(f"props.k_{i + 95}")
+                    op = row.operator(
+                        "preferences.keymapper",
+                        text=key_names[i + 95],
+                        depress=prop
+                    )
+                    op.key = f"Numpad {key_names[i + 95]}"
 
-            ### Numpad 1, 2, 3
-            row = column.row(align=align)
-            for i in range(numpad):
-                prop = eval(f"props.k_{i + 99}")
-                op = row.operator(
-                    "preferences.keymapper",
-                    text=key_names[i + 99],
-                    depress=prop
-                )
-                op.key = f"Numpad {key_names[i + 99]}"
+                ### Numpad 1, 2, 3
+                row = column.row(align=align)
+                for i in range(numpad):
+                    prop = eval(f"props.k_{i + 99}")
+                    op = row.operator(
+                        "preferences.keymapper",
+                        text=key_names[i + 99],
+                        depress=prop
+                    )
+                    op.key = f"Numpad {key_names[i + 99]}"
 
-            ### Numpad 0, .
-            row = column.row(align=align)
-            for i in range(numpad - 1):
-                if i == 0:
-                    row.scale_x = 2
-                else:
-                    row.scale_x = 1
-                prop = eval(f"props.k_{i + 103}")
-                op = row.operator(
-                    "preferences.keymapper",
-                    text=key_names[i + 103],
-                    depress=prop
-                )
-                op.key = f"Numpad {key_names[i + 103]}"
+                ### Numpad 0, .
+                row = column.row(align=align)
+                for i in range(numpad - 1):
+                    if i == 0:
+                        row.scale_x = 2
+                    else:
+                        row.scale_x = 1
+                    prop = eval(f"props.k_{i + 103}")
+                    op = row.operator(
+                        "preferences.keymapper",
+                        text=key_names[i + 103],
+                        depress=prop
+                    )
+                    op.key = f"Numpad {key_names[i + 103]}"
 
         ## Mouse and Tablet Row
-        mouse_row = key_box.row(align=align)
+        mouse_row = controls_box.row(align=align)
 
         if props.show_mouse:
             ### Spacer
@@ -486,7 +493,7 @@ class KeymapperPanel(bpy.types.Panel):
 
         if props.show_ndof:
             ## NDOF Row
-            ndof_row = key_box.row(align=align)
+            ndof_row = controls_box.row(align=align)
             ndof_row.scale_y = 2
 
             ### NDOF Button Box
